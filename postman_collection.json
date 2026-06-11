@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "7115fc76-bce8-49ce-8bfd-2a2d2f1d16f1",
+		"name": "GitHub Profile Analyzer API",
+		"description": "Collection of API requests to interact with the GitHub Profile Analyzer backend service. Integrates GitHub API and stores insights inside MySQL database.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Base Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Performs a simple health check to verify the Express server is online and running."
+			},
+			"response": []
+		},
+		{
+			"name": "Analyze and Save Profile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/profiles/{{username}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{username}}"
+					]
+				},
+				"description": "Fetches profile and repositories from GitHub, performs analysis calculations, saves or updates the results in MySQL, and returns the analyzed data."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Stored Profiles List",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/profiles",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"profiles"
+					]
+				},
+				"description": "Retrieves list of all profile analyses saved in the MySQL database."
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Profile Insights",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/profiles/{{username}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{username}}"
+					]
+				},
+				"description": "Retrieves the full detailed insights of a single profile from the local MySQL database."
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Profile Insights",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/profiles/{{username}}/refresh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{username}}",
+						"refresh"
+					]
+				},
+				"description": "Forces a cache refresh by re-fetching recent profile details and repository insights directly from the GitHub API and updates the existing database record."
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Profile Analysis",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/api/profiles/{{username}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"profiles",
+						"{{username}}"
+					]
+				},
+				"description": "Deletes the stored profile records for a user from the MySQL database."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "torvalds",
+			"type": "string"
+		}
+	]
+}
