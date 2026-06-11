@@ -21,6 +21,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Serve static frontend assets
+app.use(express.static('public'));
+
 // API Routes
 app.use('/api', profileRoutes);
 

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Profile Analyzer</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background decorations -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <i class="fa-brands fa-github text-gradient"></i>
+        <span>GitHub <span class="text-gradient">Analyzer</span></span>
+      </div>
+      <p class="subtitle">Extracting deep insights, programming stats, and metrics from GitHub public profiles.</p>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section card">
+      <form id="search-form" class="search-form">
+        <div class="input-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="username-input" placeholder="Enter GitHub username (e.g. torvalds, yyx990803)..." required autocomplete="off">
+        </div>
+        <button type="submit" id="analyze-btn" class="btn btn-primary">
+          <i class="fa-solid fa-chart-simple"></i>
+          <span>Analyze Profile</span>
+        </button>
+      </form>
+      <div id="error-message" class="error-banner hidden"></div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="main-grid hidden" id="analyzer-results">
+      <!-- Profile Card -->
+      <section class="profile-card card" id="profile-card-view">
+        <div class="profile-header">
+          <img id="user-avatar" src="" alt="Avatar" class="avatar">
+          <div class="profile-title">
+            <h2 id="user-name">User Name</h2>
+            <a id="user-github-link" href="#" target="_blank" class="username-handle">@username</a>
+          </div>
+        </div>
+        <p id="user-bio" class="bio">Profile bio goes here...</p>
+        
+        <div class="profile-meta">
+          <div class="meta-item" id="meta-company-wrapper">
+            <i class="fa-solid fa-building"></i>
+            <span id="user-company">Company</span>
+          </div>
+          <div class="meta-item" id="meta-location-wrapper">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="user-location">Location</span>
+          </div>
+          <div class="meta-item" id="meta-blog-wrapper">
+            <i class="fa-solid fa-link"></i>
+            <a id="user-blog" href="#" target="_blank">Blog/Website</a>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-badge">
+            <div class="stat-badge-value" id="user-followers">0</div>
+            <div class="stat-badge-label">Followers</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-badge-value" id="user-following">0</div>
+            <div class="stat-badge-label">Following</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-badge-value" id="user-repos-count">0</div>
+            <div class="stat-badge-label">Public Repos</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Insights Column -->
+      <section class="insights-view">
+        <!-- Stat Cards Row -->
+        <div class="insights-summary-grid">
+          <div class="summary-card card gradient-blue">
+            <div class="summary-card-icon"><i class="fa-solid fa-star"></i></div>
+            <div class="summary-card-content">
+              <h3>Total Stars</h3>
+              <p id="stat-total-stars">0</p>
+            </div>
+          </div>
+          <div class="summary-card card gradient-purple">
+            <div class="summary-card-icon"><i class="fa-solid fa-code-fork"></i></div>
+            <div class="summary-card-content">
+              <h3>Total Forks</h3>
+              <p id="stat-total-forks">0</p>
+            </div>
+          </div>
+          <div class="summary-card card gradient-red">
+            <div class="summary-card-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <div class="summary-card-content">
+              <h3>Open Issues</h3>
+              <p id="stat-open-issues">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Insights -->
+        <div class="language-card card">
+          <div class="card-header">
+            <h3><i class="fa-solid fa-code text-gradient"></i> Language Distribution</h3>
+            <span class="badge" id="primary-language-badge">Primary: JavaScript</span>
+          </div>
+          <div class="languages-list" id="languages-container">
+            <!-- Language Bars inserted here -->
+          </div>
+        </div>
+
+        <!-- Popular Repository -->
+        <div class="popular-repo-card card">
+          <h3><i class="fa-solid fa-fire text-gradient"></i> Most Popular Repository</h3>
+          <div class="popular-repo-box">
+            <div class="repo-details">
+              <h4 id="popular-repo-name">repository-name</h4>
+              <p>User's repository with the highest star count.</p>
+            </div>
+            <div class="repo-stars">
+              <i class="fa-solid fa-star text-gradient"></i>
+              <span id="popular-repo-stars-count">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- History Section -->
+    <section class="history-section card">
+      <div class="history-header">
+        <h3><i class="fa-solid fa-clock-rotate-left text-gradient"></i> Analyzed Profiles History</h3>
+        <button id="refresh-history-btn" class="btn btn-secondary">
+          <i class="fa-solid fa-rotate"></i> Refresh List
+        </button>
+      </div>
+      <div class="table-container">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Followers</th>
+              <th>Public Repos</th>
+              <th>Total Stars</th>
+              <th>Primary Language</th>
+              <th>Last Analyzed</th>
+              <th class="actions-col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="history-table-body">
+            <!-- Table rows inserted here -->
+            <tr class="empty-row">
+              <td colspan="7">No analyzed profiles found. Perform your first search above!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden">
+    <div class="loader-content">
+      <div class="spinner"></div>
+      <h3>Analyzing GitHub Profile...</h3>
+      <p>Fetching endpoints, repositories data, and calculating insights.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
